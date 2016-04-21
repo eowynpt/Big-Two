@@ -219,8 +219,7 @@ ESTADO passar (ESTADO e) {
 	return e;
 }
 
-/* TODO */
-/* Verifica se a seleção é uma combinação válida de cartas */
+
 
 int combinacao_valida(ESTADO e) {
 	int n, v, vant = -1;
@@ -243,6 +242,26 @@ m1 > m2
 */
 
 int combinacao_maior (MAO m1, MAO m2){
+	int n,v,n1,v1;
+	for(n = 0; n < 4; n++) {
+		for(v = 0; v < 13; v++) {
+			if(carta_existe(m1, n, v)) {
+				n1 = n;
+				v1 = v;
+			}
+		}
+	}
+	int n2,v2;
+	for(n = 0; n < 4; n++) {
+		for(v = 0; v < 13; v++) {
+			if(carta_existe(m2, n, v)) {
+				n2 = n;
+				v2 = v;
+			}
+		}
+	}
+	if (v1 < v2) return 0;
+	if (v1 == v2 && n1 < n2) return 0;
 	return 1;
 }
 
@@ -261,7 +280,7 @@ ESTADO jogar (ESTADO e) {
 	int n,v;
 	int x = 250,y = 450;
 	e.jogar = 0;
-	if (combinacao_valida(e)) {
+	if (posso_jogar(e)) {
 		for(n = 0; n < 4; n++) {
 			for(v = 0; v < 13; v++) {
 				if(carta_existe(e.selecao, n, v)) {
