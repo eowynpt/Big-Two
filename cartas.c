@@ -226,7 +226,7 @@ ESTADO passar (ESTADO e) {
 int combinacao_valida(ESTADO e) {
 	int n, v, vant = -1;
 	int quant = 0;                /* quant -> nº de cartas selecionadas iguais de valor mais pequeno */
-	int ncartas=0;            
+	int ncartas=0,n4=0,vant4,w=0;            
 	
 	for(n = 0; n < 4; n++) {       /*nº de cartas selecionadas */
 		for(v = 0; v < 13; v++) {
@@ -240,6 +240,8 @@ if (ncartas==1) return 1;
 if (ncartas==4) return 0;
 if (ncartas>5) return 0;
 
+
+/* começa a contar as cartas iguais que encontra e para quando encontrar uma que n seja */
 	for(n = 0; n < 4; n++) {
 		for(v = 0; v < 13; v++) {
 			if(carta_existe(e.selecao, n, v)) {
@@ -249,20 +251,29 @@ if (ncartas>5) return 0;
 			}
 		}
 	}
-if ((quant>0 && quant<4) && ncartas==quant) return 1;     /*  1/2/3 iguais */
-if ((ncartas<0 && ncartas<4) && quant!=ncartas) return 0; /*  1/2/3 NÃO iguais */
+
+
+if ((quant>0 && quant<4) && ncartas==quant) return 1;     /*  1/2/3 iguais  */
+if (ncartas>0 && ncartas<4) return 0; /*  1/2/3 NÃO iguais */
+
 
 if (quant==4 && ncartas==5) return 1; /* para o 4 of a kind -> peixinho tem valor mais pequeno que a outra carta*/
 		
-	/*if (quant == 1) {  para o 4 of a kind -> peixinho tem valor maior que a outra carta VER SE AS RESTANTES 4 CARTAS SÃO TODAS IGUAIS 
-		for (n = 0; n < 4; n++) {
-			for ()
+  /* para o 4 of a kind -> peixinho tem valor maior que a outra carta VER SE AS RESTANTES 4 CARTAS SÃO TODAS IGUAIS */
+	vant = -1; quant=0;
+	for(n = 0; n < 4; n++) {
+		for(v = 12; v > 0; v--) {
+			if(carta_existe(e.selecao, n, v)) {
+				if (vant == -1) vant = v;
+				if (vant != v) break;
+				quant++;
+			}
 		}
-	} */
-
-
+	}
+if (quant==4 && ncartas==5) return 1;
 	
-	else return 0; /* caso nenhuma combinação possivel exista */
+
+	 else return 0; /* caso nenhuma combinação possivel exista */
 }
 
 
